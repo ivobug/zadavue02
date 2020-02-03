@@ -8,8 +8,8 @@
       <span>{{joke}}</span>
     </div>
     <br>
-    <button @click="getRandomCategory()">Get joke</button>
-    {{pickedCategory}}
+    <button @click="axiosFunk()">Get joke</button>
+    {{category}}
 
 
   </div>
@@ -28,11 +28,11 @@ export default {
     return{
       joke:null,
       image:null,
+      category:null,
       errors:[],
       start:null,
       diff:null,
       categories:[],
-      pickedCategory:null,
     }
   },
   methods:{
@@ -40,10 +40,11 @@ export default {
       // 2. uzimamo trenutno vrijeme na pocetku axios funkcije te njime oduzimamo vrijeme
       // zavrsetka axios funkcije.. milisekunde ispisujemo u consolu
       this.start=new Date().getTime()
-      axios.get(`https://api.chucknorris.io/jokes/random?categories=${this.pickedCategory}`)
+      axios.get(`https://api.chucknorris.io/jokes/random?category=${this.getRandomCategory()}`)
       .then(response => {
         this.diff=new Date().getTime()-this.start
         this.joke=response.data.value
+        this.category=response.data.categories[0]
         this.image= response.data.icon_url
         window.console.log(`drugi rezultat ${this.diff} ms `)
 
@@ -56,8 +57,7 @@ export default {
     // te pozivamo axiosFunk
     getRandomCategory:function(){
       let randomNum = Math.floor(Math.random() * this.categories.length)
-      this.pickedCategory= this.categories[randomNum]
-      this.axiosFunk()
+      return this.categories[randomNum]
 
     }
     },
