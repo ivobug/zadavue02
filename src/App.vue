@@ -40,6 +40,7 @@ export default {
       // 2. uzimamo trenutno vrijeme na pocetku axios funkcije te njime oduzimamo vrijeme
       // zavrsetka axios funkcije.. milisekunde ispisujemo u consolu
       this.start=new Date().getTime()
+      // uzimamo link s random kategorijom
       axios.get(`https://api.chucknorris.io/jokes/random?category=${this.getRandomCategory()}`)
       .then(response => {
         this.diff=new Date().getTime()-this.start
@@ -53,8 +54,7 @@ export default {
         this.errors.push(e)
       })
     },
-    // Biramo random broj te kategoriju koja je pod tim rednim brojem spremamo u pickedCategory
-    // te pozivamo axiosFunk
+    // Biramo random broj te returnamo kategoriju koja je pod tim rednim brojem 
     getRandomCategory:function(){
       let randomNum = Math.floor(Math.random() * this.categories.length)
       return this.categories[randomNum]
